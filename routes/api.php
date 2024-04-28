@@ -9,3 +9,7 @@ use \App\Http\Controllers\todo;
 Route::get('/index' , [UserController::class , 'index']);
 Route::get('/todos' , [todo::class , 'index']);
 Route::post('/todos' , [todo::class , 'store']);
+Route::get('/p' , [todo::class , 'paginated']);
+Route::get('/todos/{todo_id}', [todo::class, 'show']);
+Route::delete('/todos/{todo_id}', [todo::class, 'destroy']);
+Route::put('/todos/{todo_id}', [todo::class, 'update']);

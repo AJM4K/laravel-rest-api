@@ -14,10 +14,43 @@ class todo extends Controller
     {
         // Retrieve all todos from the database
         $todos = Todos::all();
+        // Retrieve all todos and order them by a specific column (e.g., 'name')
+        $todos = Todos::orderBy('id')->get();
+
 
         // Return the todos as a JSON response
         return response()->json(['data' => $todos]);
+    }
+    public function paginated(Request $request)
+    {
+
+
+        $page_query = $request->query('page', 1);
+        $todos_paginated = Todos::query()->paginate(7, ['*'], 'page', $page_query);
+
+// Retrieve all todos (you can replace this with your actual query)
+        $todos = Todos::all();
+
+// Calculate the start and end indices for the current page
+        $max = count($todos);
+        $start = ($page_query - 1) * 7;
+        $end = min($start + 7, $max);
+
+// Create an array to store the paginated results
+        $todo_res = [];
+
+// Populate the paginated results array
+        for ($i = $start; $i < $end; $i++) {
+            $todo_res[] = $todos[$i];
         }
+
+// Now you can use $todo_res for your paginated response
+// For example, return it as JSON or render it in your view
+      //  return response()->json($todo_res);
+
+        // Return the todos as a JSON response
+        return response()->json(['data' => $todo_res]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -56,7 +89,17 @@ class todo extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Retrieve the todo item by ID
+        $todo = Todos::find($id);
+
+        if (!$todo) {
+            // Handle case when todo item is not found
+            return response()->json(['message' => 'Todo not found'], 404);
+        }
+
+        // Return the todo item as JSON response
+        return response()->json($todo);
+
     }
 
     /**
@@ -64,7 +107,22 @@ class todo extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $todo = Todos::find($id);
+
+        if (!$todo) {
+            // Handle case when todo item is not found
+            return response()->json(['message' => 'Todo not found'], 404);
+        }
+
+        // Update the todo item with new data
+        $todo->name = $request->input('name');
+        // Add other fields as needed
+
+        // Save the changes
+        $todo->save();
+
+        // Return the updated todo item
+        return response()->json($todo);
     }
 
     /**
@@ -72,6 +130,17 @@ class todo extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $todo = Todos::find($id);
+
+        if (!$todo) {
+            // Handle case when todo item is not found
+            return response()->json(['message' => 'Todo not found'], 404);
+        }
+
+        // Delete the todo item
+        $todo->delete();
+
+        // Return a success message
+        return response()->json(['message' => 'Todo deleted successfully']);
     }
 }
