@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Todos;
+use Illuminate\Http\Request;
+use App\domain\DomainManager;
 
 class todo extends Controller
-{
-    /**
+{   public function __construct(
+    protected DomainManager $domain,
+){}  /**
      * Display a listing of the resource.
      */
     public function index()
     {
         // Retrieve all todos from the database
-        $todos = Todos::all();
+      //  $todos = Todos::all();
         // Retrieve all todos and order them by a specific column (e.g., 'name')
-        $todos = Todos::orderBy('id')->get();
-
-
+//        $todos = Todos::orderBy('id')->get();
+       //return  DomainManager::getAll();
+return $this->domain->getAll();
         // Return the todos as a JSON response
-        return response()->json(['data' => $todos]);
+        // return response()->json(['data' => $todos]);
     }
     public function paginated(Request $request)
     {
-
-
+        $skip = 1 ;
+        $take = 1;
         $page_query = $request->query('page', 1);
         $todos_paginated = Todos::query()->paginate(7, ['*'], 'page', $page_query);
 
@@ -46,10 +48,20 @@ class todo extends Controller
 
 // Now you can use $todo_res for your paginated response
 // For example, return it as JSON or render it in your view
-      //  return response()->json($todo_res);
+        //  return response()->json($todo_res);
 
         // Return the todos as a JSON response
         return response()->json(['data' => $todo_res]);
+    }
+    public function getAll(Request $request)
+    {
+        $skip = $request->query('skip', 0);
+        $take = $request->query('take', 7);
+
+      //  $todos_list = Todos::latest('updated_at')->skip($skip)->take($take)->get();
+        $todos_list = Todos::orderby('id')->skip($skip)->take($take)->get();
+
+        return response()->json(['data' => $todos_list]);
     }
 
     /**
