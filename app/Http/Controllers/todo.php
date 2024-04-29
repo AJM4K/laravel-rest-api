@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\domain\DomainManager;
 
 class todo extends Controller
-{   public function __construct(
+{
+    public function __construct(
     protected DomainManager $domain,
 ){}  /**
      * Display a listing of the resource.
