@@ -3,7 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use \App\Http\Controllers\todo;
+use App\Http\Controllers\todo;
+use App\Http\Controllers\Uploadfile;
 
 
 Route::get('/index' , [UserController::class , 'index']);
@@ -15,3 +16,6 @@ Route::get('/p' , [todo::class , 'paginated']);
 Route::get('/todos/{todo_id}', [todo::class, 'show']);
 Route::delete('/todos/{todo_id}', [todo::class, 'destroy']);
 Route::put('/todos/{todo_id}', [todo::class, 'update']);
+
+Route::get('/upload' , [Uploadfile::class , 'index']);
+Route::post('/upload' , [Uploadfile::class , 'store']);
