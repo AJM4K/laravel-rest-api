@@ -14,6 +14,20 @@ class Uploadfile extends Controller
      */
     public function index()
     {
+        /* NOTE : https://medium.com/@laravelprotips/storing-public-and-private-files-images-in-laravel-a-comprehensive-guide-6620789fad3b
+        there are public folder and storage folder
+        for example we have this file : public/uploads/images/store/image.jpg
+        any files that we put in the public folder could be reachable from ( localhost/uploads/images/store/image.jpg )
+        1.2. Using the /storage/app/public Directory
+Let’s take an example: We have an image called cat.jpg and we want to place it in storage/app/public.
+
+The storage/app/public/ directory in Laravel is perfect for storing files you want to make publicly available, like user uploads: images, videos, or documents. However, unlike the public/ directory, files here aren't directly reachable through a URL.
+
+Instead, Laravel cleverly uses a symbolic link pointing from public/storage to storage/app/public/, allowing users to access these files via a web link.
+
+To set this up, just run the command php artisan storage:link. After doing this, any file in storage/app/public/ becomes accessible with a URL prefixed with storage/. So, our cat.jpg would be viewable at the storage/cat.jpg URL.
+         */
+
         $filename = "image.jpg";
         $pdffile = "filetest.pdf";
         $videofile = "video.mp4";
@@ -21,20 +35,19 @@ class Uploadfile extends Controller
         $pathpdf = public_path('\\uploads\\images\\store\\' . $pdffile); // Adjust the folder path as needed
         $pathVideo = public_path('\\uploads\\images\\store\\' . $videofile); // Adjust the folder path as needed
 
-        //  echo $path;
-       // $path = storage_path('images/my-image.jpg');
+             //  echo $path;
+            // $path = storage_path('images/my-image.jpg');
         if(file_exists($path)){
             // return images
-           // return response()->file($path); // view in browser
-           // return response()->download($path); // download to client
-
+            return response()->file($path); // view in browser
+            // return response()->download($path); // download to client
             // return files here
-           // return response()->file($pathpdf); // view in browser
-           // return response()->download($pathpdf); // download to client
+            // return response()->file($pathpdf); // view in browser
+            // return response()->download($pathpdf); // download to client
 
             // return videos here
-           // return response()->file($pathVideo); // view in browser
-           // return response()->download($pathVideo); // download to client
+            // return response()->file($pathVideo); // view in browser
+            // return response()->download($pathVideo); // download to client
 
         }
         $filePath = storage_path('app/static_file.pdf');
