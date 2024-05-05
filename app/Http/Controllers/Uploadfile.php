@@ -37,23 +37,32 @@ To set this up, just run the command php artisan storage:link. After doing this,
 
              //  echo $path;
             // $path = storage_path('images/my-image.jpg');
-        if(file_exists($path)){
-            // return images
-            return response()->file($path); // view in browser
-            // return response()->download($path); // download to client
-            // return files here
-            // return response()->file($pathpdf); // view in browser
-            // return response()->download($pathpdf); // download to client
+//        if(file_exists($path)){
+//            // return images
+//            return response()->file($path); // view in browser
+//            // return response()->download($path); // download to client
+//            // return files here
+//            // return response()->file($pathpdf); // view in browser
+//            // return response()->download($pathpdf); // download to client
+//
+//            // return videos here
+//            // return response()->file($pathVideo); // view in browser
+//            // return response()->download($pathVideo); // download to client
+//
+//        }
+        $publicStorage = storage_path('app/public/filetest.pdf');
+        $privateStorage = storage_path('app/private/image.jpg');
 
-            // return videos here
-            // return response()->file($pathVideo); // view in browser
-            // return response()->download($pathVideo); // download to client
+        // this will get us the location path of this file such
+       // $pathStorate = Storage::url('image.jpg');
 
-        }
-        $filePath = storage_path('app/static_file.pdf');
-        return response()->download($filePath, 'my-file.pdf', ['Content-Type' => 'application/pdf']);
+        // this is working from storage
+       // return response()->download($privateStorage, ['Content-Type' => 'application/pdf']);
+        return response()->ile($privateStorage);
 
+        // currently this is not working
 
+         //return $pathStorate;
 
 
 //        if (file_exists($path)) {
