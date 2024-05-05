@@ -5,7 +5,11 @@ Route::get('/', function () {
 });
 
 Route::get('/blade', function () {
-    return view('blade-livewire-view'); // Replace 'my-page' with the actual view name
+    return view('bladeview'); // Replace 'my-page' with the actual view name
 });
+
+Route::view('livewire' , 'bladeview');
+Route::view('create' , 'createitem');
+
 
 
